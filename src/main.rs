@@ -1,5 +1,6 @@
 use pcap::{Device, Capture, Direction};
-use std::str;
+use photon_decode::{Photon, Message};
+
 
 fn main() {
 
@@ -11,12 +12,31 @@ fn main() {
     cap.direction(Direction::In).unwrap();
     cap.filter("portrange 5055-5056").unwrap();
 
-    while let Ok(packet) = cap.next() {
-        let s = match str::from_utf8(packet.data) {
-            Ok(v) => v,
-            Err(e) => panic!("Invalid UTF-8 sequence: {}", e),
-        };
+    let mut photon = Photon::new();
+    let photon_packet = vec![
+    0x00, 0x01, 			// PeerID
+    0x01,                   // CrcEnabled
+    0x00,                   // CommandCount
+    0x00, 0x00, 0x00, 0x01, // Timestamp
+    0x00, 0x00, 0x00, 0x01, // Challenge
+];
 
-        println!("result: {}", s);
+for message in photon.decode(&photon_packet).iter() {
+    match message {
+        Message::Event(_) => {
+            // use event
+            println!("Received event: {:?}", message);
+        },
+        Message::Request(_) => {
+            // use request
+            println!("Received request: {:?}", message);
+        },
+        Message::Response(_) => {
+            // use response
+            println!("Received Response: {:?}", message);
+        }
     }
 }
+
+
+    }

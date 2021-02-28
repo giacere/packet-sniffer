@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 pcap = { version = "0.8", features = ["capture-stream"] }
+photon_decode = "0.2.1"
