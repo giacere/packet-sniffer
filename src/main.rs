@@ -1,3 +1,6 @@
+#[macro_use]
+extern crate lazy_static;
+
 use pcap::{Device, Capture, Direction};
 use photon_decode::{Photon, Message};
 
@@ -27,15 +30,8 @@ fn main() {
 
     while let Ok(packet) = cap.next() {
 
-        let mut messages: Vec<Message> = photon
-            .decode(packet.data)
-            .into_iter()
-            .filter_map(into_game_message)
-            .collect();
-
-
-        println!("Received packet {:?} \n Decoded into messages {:?}", packet.data,  messages);
-        for message in photon.try_decode(packet.data).into_iter() {
+        println!("Received packet {:?} \n ", packet.data);
+        for message in photon.decode(packet.data).iter() {
             println!("Hello");
             match message {
                 Message::Event(_) => {

@@ -393,6 +393,7 @@ dependencies = [
 name = "udp-listener"
 version = "0.1.0"
 dependencies = [
+ "lazy_static",
  "pcap",
  "photon_decode",
 ]

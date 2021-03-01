@@ -1,13 +1,14 @@
 //! Translates photon packets into game messages
 
 //! Generated messages based on assets/messages.json
-//! See build.rs 
+//! See build.rs
+
 pub mod messages;
 /// generated from assets/item_ids.txt
-/// See build.rs 
-mod itemdb;
-
+/// See build.rs
 use itemdb::ITEMDB;
+
+mod itemdb;
 
 use std::convert::From;
 
