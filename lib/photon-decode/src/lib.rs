@@ -8,15 +8,16 @@ pub use layout::*;
 
 use std::collections::HashMap;
 use std::convert::TryFrom;
-use std::io::Cursor;
+use std::io::{Cursor, Seek, SeekFrom};
 
 impl TryFrom<(&ReliableCommand, &mut Cursor<&[u8]>)> for Message {
     type Error = PhotonDecodeError;
 
     fn try_from(message: (&ReliableCommand, &mut Cursor<&[u8]>)) -> Result<Self, Self::Error> {
         let (command, cursor) = message;
-        let _: u8 = cursor.decode()?;
+        let a: u8 = cursor.decode()?;
         let msg_type: u8 = cursor.decode()?;
+
         match msg_type {
             2 => {
                 let v = cursor.decode().map_err(|e| e.extend("Request".into()))?;

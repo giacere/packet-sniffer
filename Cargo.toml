@@ -8,5 +8,5 @@ edition = "2018"
 
 [dependencies]
 pcap = { version = "0.8", features = ["capture-stream"] }
-photon_decode = "0.2.1"
+photon_decode = { path = "./lib/photon-decode" }
 lazy_static = "1.4.0"
